@@ -9,14 +9,14 @@ tf.reset_default_graph()
 
 tf.logging.set_verbosity(tf.logging.INFO)
 # Experiment Setup
-batch_size = 5
+batch_size = 4
 ways = 5
 shots = 10
-query_size = 3
+query_size = 2
 image_shape = [224, 224, 3]
 restore = False
 active_round = 3
-init_total_epochs = 6
+init_total_epochs = 4
 total_training_episodes = 1000
 total_val_episodes = 250
 total_test_episodes = 250
@@ -53,9 +53,9 @@ if not os.path.exists('summary_dir'):
 #if not os.path.exists('summary_dir/test_log'):
 #    os.makedirs('summary_dir/test_log')
 
-tra_log_path = os.path.join(path, 'summary_dir/a_tra_log_10_28')
-test_log_path = os.path.join(path, 'summary_dir/a_test_log_10_28')
-
+tra_log_path = os.path.join(path, 'summary_dir/a_tra_log_10_29')
+test_log_path = os.path.join(path, 'summary_dir/a_test_log_10_29')
+val_log_path = os.path.join(path, 'summary_dir/a_val_log_20_29')
 
 def move_cand_to_tra(r, dic):
 
@@ -69,7 +69,7 @@ def move_cand_to_tra(r, dic):
 # Experiment initialization and running
 with tf.Session() as sess:
     train_writer = tf.summary.FileWriter(tra_log_path, sess.graph)
-    # val_writer = tf.summary.FileWriter(summary_path + '/val')
+    val_writer = tf.summary.FileWriter(val_log_path, sess.graph)
     test_writer = tf.summary.FileWriter(test_log_path, sess.graph)
     # test_summary = tf.Summary()
     if restore:
@@ -99,7 +99,7 @@ with tf.Session() as sess:
                 print('\n')
                 print("Epoch {}: train_loss: {}, train_accuracy: {}".format(e, total_c_loss, total_accuracy))
 
-                total_val_c_loss, total_val_accuracy = experiment.run_validation_epoch(total_val_episodes=total_val_episodes,
+                total_val_c_loss, total_val_accuracy = experiment.run_validation_epoch(total_val_episodes=total_val_episodes, writer = val_writer,
                                                                                          sess=sess)
                 print('\n')
                 print("Epoch {}: val_loss: {}, val_accuracy: {}".format(e, total_val_c_loss, total_val_accuracy))

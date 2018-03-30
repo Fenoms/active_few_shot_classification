@@ -452,9 +452,9 @@ class FewshotsNet:
         :param learning_rate: learning rate for sgd
         :return
         """
-        #opt = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
+        opt = tf.train.AdamOptimizer(learning_rate=self.learning_rate)
         #opt = tf.train.AdadeltaOptimizer(learning_rate=self.learning_rate)
-        opt = tf.train.MomentumOptimizer(learning_rate=self.learning_rate, momentum=0.9)
+        #opt = tf.train.MomentumOptimizer(learning_rate=self.learning_rate, momentum=0.9)
         update_ops = tf.get_collection(tf.GraphKeys.UPDATE_OPS)  # Needed for correct batch norm usage
         with tf.control_dependencies(update_ops):
             ada_opt = opt.minimize(losses['loss'])
